@@ -1,7 +1,6 @@
 import Buyable from "./Buyable";
-import Cart from "./Cart";
 
-export default class Movie implements Buyable {
+export default class Smartphone implements Buyable {
     constructor(readonly id: number,
                 readonly name: string,
                 readonly price: number,
@@ -10,8 +9,6 @@ export default class Movie implements Buyable {
                 readonly tagline: string,
                 readonly genre: string,
                 readonly duration: number,
-                readonly unique: boolean
-    ) {
+                readonly unique: boolean) {
     }
 }
-

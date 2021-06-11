@@ -5,9 +5,9 @@ import Cart from "./Cart";
 
 test('Проверка суммирования данных в корзине', () => {
     const firstMovie = new Movie(1,'avengers', 300, 2012, 'USA',
-        'Something', 'Action', 137)
+        'Something', 'Action', 137, true)
     const secondMovie = new Movie(2, 'avengers', 400, 2012,
-        'USA', 'Something', 'Action', 137);
+        'USA', 'Something', 'Action', 137, true);
 
     const newCart = new Cart();
     newCart.add(firstMovie);
@@ -18,9 +18,9 @@ test('Проверка суммирования данных в корзине',
 
 test('Проверка суммирования с учетом скидки', () => {
     const firstMovie = new Movie(1,'avengers', 300, 2012, 'USA',
-        'Something', 'Action', 137)
+        'Something', 'Action', 137, true)
     const secondMovie = new Movie(2, 'avengers', 400, 2012,
-        'USA', 'Something', 'Action', 137);
+        'USA', 'Something', 'Action', 137, true);
 
     const newCart = new Cart();
     newCart.add(firstMovie);
@@ -31,9 +31,9 @@ test('Проверка суммирования с учетом скидки', (
 
 test('Проверка удаления объекта из корзины', () => {
     const firstMovie = new Movie(1,'avengers', 300, 2012, 'USA',
-        'Something', 'Action', 137)
+        'Something', 'Action', 137, true)
     const secondMovie = new Movie(2, 'avengers', 400, 2012,
-        'USA', 'Something', 'Action', 137);
+        'USA', 'Something', 'Action', 137, true);
 
     const newCart = new Cart();
     newCart.add(firstMovie);
@@ -47,7 +47,16 @@ test('Проверка удаления объекта из корзины', () 
         country: 'USA',
         tagline: 'Something',
         genre: 'Action',
-        duration: 137
+        duration: 137,
+        unique: true
     }
     ])
+});
+
+test('Проверка удаления если товара нет в корзине', () => {
+    const newCart = new Cart();
+    const firstMovie = new Movie(1,'avengers', 300, 2012, 'USA',
+        'Something', 'Action', 137, true)
+    newCart.add(firstMovie);
+    expect(() => {newCart.removeItem(2)}).toThrowError('Такого товара нет в корзине!')
 })
