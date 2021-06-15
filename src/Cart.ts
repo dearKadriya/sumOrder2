@@ -9,7 +9,6 @@ export default class Cart {
         if(item.unique) {
             for (let elem of this.items) {
                 if (elem.id == item.id) {
-                    console.log('wtf')
                     throw new Error(`Товар ${elem.name} нельзя дважды добавить в корзину!`);
                 }
             }  this.items.push(item)
@@ -23,53 +22,45 @@ export default class Cart {
         return [...this.items];
     }
     sumAll(): number {
-        let sum = 0;
-        for( let elem of this.items) {
-            sum += elem.price
-        }
-        return sum
+        return this.items.reduce((sum:number, price: Buyable) => sum + price.price, 0)
+
     }
     discountSum(discount: number): number {
-        let sum = 0;
-        for( let elem of this.items) {
-            sum += elem.price
-        }
-        return (sum - discount)
+        return (this.sumAll() - discount)
     }
     removeItem(id: number): Buyable[] {
-        for( let elem of this.items) {
-            if (elem.id === id) {
-                let index = this.items.indexOf(elem);
-                if (index > -1) {
-                    this.items.splice(index, 1);
-                }
-                } else {
-                    throw new Error('Такого товара нет в корзине!');
-            }
+        let itemForRemove = this.items.find(item => item.id === id);
+        // @ts-ignore
+        let index = this.items.indexOf(itemForRemove);
+        if (index > -1) {
+            this.items.splice(index, 1)
+        } else {
+            throw new Error('Такого товара нет в корзине!');
         }
         return this.items
     }
-    removeOneItem(id: number): Buyable[] {
-        for( let elem of this.items) {
-            if (elem.id === id) {
-                if (!elem.unique) {
-                    let index = this.items.indexOf(elem);
-                    if (index > -1) {
-                        this.items.splice(index, 1);
-                    }
-                } else {
-                    throw new Error('Невозможно уменьшить количество товара на один!');
-                }
 
+    removeOneItem(id: number): Buyable[] {
+        let itemForRemove = this.items.find(item => item.id === id);
+        // @ts-ignore
+        if(!itemForRemove.unique) {
+            // @ts-ignore
+            let index = this.items.indexOf(itemForRemove);
+            if (index > -1) {
+                this.items.splice(index, 1)
             }
+
+        } else {
+            throw new Error('Невозможно уменьшить количество товара на один!')
+
         }
         return this.items
     }
 }
 
 
-// const firstMovie = new Movie(1,'avengers', 300, 2012, 'USA',
-//     'Something', 'Action', 137, true)
+const firstMovie = new Movie(1,'avengers', 300, 2012, 'USA',
+    'Something', 'Action', 137, false)
 // const secondMovie = new Movie(2, 'avengers', 400, 2012,
 //     'USA', 'Something', 'Action', 137, true);
 //
@@ -83,6 +74,6 @@ export default class Cart {
 // newCart.add(secondMovie);
 // newCart.add(firstSmartphone);
 // newCart.add(secondSmartphone);
-// newCart.removeOneItem(3)
+// console.log(newCart.removeOneItem(1));
 // console.log(newCart.getAll());
 
